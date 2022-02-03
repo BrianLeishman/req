@@ -536,7 +536,7 @@ func (c *Client) SetTimeout(d time.Duration) *Client {
 	return c
 }
 
-func (c *Client) getDumpOptions() *DumpOptions {
+func (c *Client) GetDumpOptions() *DumpOptions {
 	if c.dumpOptions == nil {
 		c.dumpOptions = newDefaultDumpOptions()
 	}
@@ -547,7 +547,7 @@ func (c *Client) enableDump() {
 	if c.t.dump != nil { // dump already started
 		return
 	}
-	c.t.EnableDump(c.getDumpOptions())
+	c.t.EnableDump(c.GetDumpOptions())
 }
 
 // EnableDumpToFile is a global wrapper methods which delegated
@@ -563,7 +563,7 @@ func (c *Client) EnableDumpToFile(filename string) *Client {
 		c.log.Errorf("create dump file error: %v", err)
 		return c
 	}
-	c.getDumpOptions().Output = file
+	c.GetDumpOptions().Output = file
 	c.enableDump()
 	return c
 }
@@ -576,7 +576,7 @@ func EnableDumpTo(output io.Writer) *Client {
 
 // EnableDumpTo enables dump and save to the specified io.Writer.
 func (c *Client) EnableDumpTo(output io.Writer) *Client {
-	c.getDumpOptions().Output = output
+	c.GetDumpOptions().Output = output
 	c.enableDump()
 	return c
 }
@@ -591,7 +591,7 @@ func EnableDumpAsync() *Client {
 // can be used for debugging in production environment without
 // affecting performance.
 func (c *Client) EnableDumpAsync() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.Async = true
 	c.enableDump()
 	return c
@@ -606,7 +606,7 @@ func EnableDumpNoRequestBody() *Client {
 // EnableDumpNoRequestBody enables dump with request body excluded, can be
 // used in upload request to avoid dump the unreadable binary content.
 func (c *Client) EnableDumpNoRequestBody() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.ResponseHeader = true
 	o.ResponseBody = true
 	o.RequestBody = false
@@ -624,7 +624,7 @@ func EnableDumpNoResponseBody() *Client {
 // EnableDumpNoResponseBody enables dump with response body excluded, can be
 // used in download request to avoid dump the unreadable binary content.
 func (c *Client) EnableDumpNoResponseBody() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.ResponseHeader = true
 	o.ResponseBody = false
 	o.RequestBody = true
@@ -641,7 +641,7 @@ func EnableDumpOnlyResponse() *Client {
 
 // EnableDumpOnlyResponse enables dump with only response included.
 func (c *Client) EnableDumpOnlyResponse() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.ResponseHeader = true
 	o.ResponseBody = true
 	o.RequestBody = false
@@ -658,7 +658,7 @@ func EnableDumpOnlyRequest() *Client {
 
 // EnableDumpOnlyRequest enables dump with only request included.
 func (c *Client) EnableDumpOnlyRequest() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.RequestHeader = true
 	o.RequestBody = true
 	o.ResponseBody = false
@@ -675,7 +675,7 @@ func EnableDumpOnlyBody() *Client {
 
 // EnableDumpOnlyBody enables dump with only body included.
 func (c *Client) EnableDumpOnlyBody() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.RequestBody = true
 	o.ResponseBody = true
 	o.RequestHeader = false
@@ -692,7 +692,7 @@ func EnableDumpOnlyHeader() *Client {
 
 // EnableDumpOnlyHeader enables dump with only header included.
 func (c *Client) EnableDumpOnlyHeader() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.RequestHeader = true
 	o.ResponseHeader = true
 	o.RequestBody = false
@@ -710,7 +710,7 @@ func EnableDumpAll() *Client {
 // EnableDumpAll enables dump with all content included,
 // including both requests and responses' header and body
 func (c *Client) EnableDumpAll() *Client {
-	o := c.getDumpOptions()
+	o := c.GetDumpOptions()
 	o.RequestHeader = true
 	o.RequestBody = true
 	o.ResponseHeader = true
